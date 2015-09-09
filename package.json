@@ -1,0 +1,27 @@
+{
+  "name": "compile-tex",
+  "version": "0.1.0",
+  "description": "Compile tex files, do several runs with (different) options for the specified engine (e.g. pdflatex or lualatex)",
+  "main": "compile-tex.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cperriard/compile-tex.git"
+  },
+  "keywords": [
+    "tex",
+    "latex",
+    "pdflatex",
+    "lualatex",
+    "pdf"
+  ],
+  "author": {
+    "name": "Cédric Perriard",
+    "email": "c@perriard.se"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cperriard/compile-tex/issues"
+  },
+  "homepage": "https://github.com/cperriard/compile-tex"
+}
