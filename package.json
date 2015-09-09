@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/cperriard/compile-tex/issues"
   },
-  "homepage": "https://github.com/cperriard/compile-tex"
+  "homepage": "https://github.com/cperriard/compile-tex",
+  "dependencies": {
+    "bluebird": "^2.10.0"
+  }
 }
