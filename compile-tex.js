@@ -79,7 +79,6 @@ function compileTex ( file, engine, runs ) {
                     error.exitCode = code;
                     reject( error );
                 } else {
-                    console.log("resolving");
                     resolve( outputFile );
                 }
             });
