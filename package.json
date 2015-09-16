@@ -1,6 +1,6 @@
 {
   "name": "compile-tex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Compile tex files, do several runs with (different) options for the specified engine (e.g. pdflatex or lualatex)",
   "main": "compile-tex.js",
   "scripts": {},
