@@ -17,30 +17,41 @@ var Promise = require( "bluebird" ),
 
 
 function compileTex ( file, engine, runs ) {
-    var parsedFile = path.parse( file );
-    parsedFile.ext = ".pdf";
-    var outputFile = path.format( parsedFile );
-    var defaultOptions = [
+    var parsedFile = path.parse( file ),
+        outputFile = path.join( parsedFile.dir, path.basename( file, path.extname( file ) ) + ".pdf" ),
+        defaultOptions = [
         "-interaction=nonstopmode",
         "-halt-on-error",
         "-file-line-error"
     ];
     engine = engine || "pdflatex";
 
-    if ( runs === undefined ) {
-        runs = [{
-            "runs": 2,
-            "options": defaultOptions
-        }];
+    if ( Array.isArray( engine ) ) {
+        runs = engine;
+        engine = "pdflatex";
     }
 
-    var optionsForMapping = runs.map( function( currentValue ){
-        var tmp = [];
+    if ( runs === undefined ) {
+        runs = [
+            {
+                runs: 1,
+                options: defaultOptions.concat([
+                    "-draftmode"
+                ])
+            },
+            {
+                runs: 1,
+                options: defaultOptions
+            }
+        ];
+    }
+
+    var optionsForMapping = [];
+    runs.map( function( currentValue ){
         for ( var i = 0; i < currentValue.runs; i++ ) {
-            tmp.push( currentValue.options );
+            optionsForMapping.push( currentValue.options );
         }
-        this.push( tmp );
-    }, [] );
+    });
 
 
 
@@ -68,6 +79,7 @@ function compileTex ( file, engine, runs ) {
                     error.exitCode = code;
                     reject( error );
                 } else {
+                    console.log("resolving");
                     resolve( outputFile );
                 }
             });
@@ -75,7 +87,16 @@ function compileTex ( file, engine, runs ) {
         return texPromise;
     }
 
-    return Promise.each( optionsForMapping, texPromise );
+
+    var resultPromise = texPromise( optionsForMapping[ 0 ] );
+
+    for ( var i = 1; i < optionsForMapping.length; i++ ) {
+        resultPromise = resultPromise.then( function(){
+            return texPromise( optionsForMapping[ i ] );
+        });
+    }
+
+    return resultPromise;
 
 }
 
